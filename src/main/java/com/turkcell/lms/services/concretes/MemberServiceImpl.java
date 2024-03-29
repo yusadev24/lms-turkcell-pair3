@@ -6,6 +6,7 @@ import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.responses.GetAllMembersResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,22 @@ public class MemberServiceImpl implements MemberService {
 
     public Optional<Member> getById(int id){
 
-        return null;
+        return memberRepository.findById(id);
+    }
+
+    public void deleteMemberById(int id){
+        if (!memberRepository.existsById(id)) {
+            throw new IllegalArgumentException("Member with ID " + id + " does not exist");
+        }
+        memberRepository.deleteById(id);
     }
 
     @Override
-    public Member saveMember(Member member) {
+    public Member addMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+    public Member updateMember(Member member) {
         return memberRepository.save(member);
     }
 

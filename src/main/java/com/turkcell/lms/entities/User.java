@@ -8,10 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name="users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
     @Column(name="id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @Column(name="name")
     private String name;

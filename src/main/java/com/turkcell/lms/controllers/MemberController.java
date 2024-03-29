@@ -4,6 +4,7 @@ import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.responses.GetAllMembersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,15 +17,9 @@ public class MemberController {
     @Autowired
     private final MemberService memberService;
 
-    @GetMapping("/getall")
+    @GetMapping()
     public List<GetAllMembersResponse> getAll(){
         return memberService.getAll();
-    }
-
-    @GetMapping
-    public String get(@RequestParam String name)
-    {
-        return "Merhaba " + name;
     }
 
     @GetMapping("{id}")
@@ -32,9 +27,19 @@ public class MemberController {
         return memberService.getById(id);
     }
 
+    @DeleteMapping("{id}")
+    public void deleteMemberById(@PathVariable int id){
+        memberService.deleteMemberById(id);
+    }
+
     @PostMapping
     public Member addMember(@RequestBody Member member){
-        return memberService.saveMember(member);
+        return memberService.addMember(member);
+    }
+
+    @PutMapping
+    public Member updateMember(@RequestBody Member member){
+        return memberService.updateMember(member);
     }
 
 }

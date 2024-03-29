@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class CreateMemberRequest {
     private String name;
     private String surname;
-
 }
