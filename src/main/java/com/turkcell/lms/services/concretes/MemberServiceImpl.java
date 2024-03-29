@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -30,6 +32,16 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return membersResponses;
+    }
+
+    public Optional<Member> getById(int id){
+
+        return null;
+    }
+
+    @Override
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
     }
 
 }
