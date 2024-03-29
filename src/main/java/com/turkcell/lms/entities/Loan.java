@@ -1,10 +1,8 @@
 package com.turkcell.lms.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
@@ -23,7 +21,7 @@ public class Loan {
     @Column(name = "due_date")
     private LocalDate dueDate;
     @Column(name ="date_returned")
-    private  LocalDate dateReturned;
+    private LocalDate dateReturned;
     @Column(name = "status")
     private String status;
 

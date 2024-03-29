@@ -4,6 +4,7 @@ import com.turkcell.lms.entities.Member;
 import com.turkcell.lms.repositories.MemberRepository;
 import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.responses.GetAllMembersResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public List<GetAllMembersResponse> getAll(){
 

@@ -4,7 +4,6 @@ import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.responses.GetAllMembersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
