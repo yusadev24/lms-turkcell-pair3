@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -21,6 +21,6 @@ public class Member extends User{
     @Column(name="member_number")
     private int memberNumber;
     @Column(name="start_date")
-    private Timestamp startDate;
+    private LocalDate startDate;
 
 }
