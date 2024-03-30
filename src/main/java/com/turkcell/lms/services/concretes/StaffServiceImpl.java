@@ -40,6 +40,10 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff updateStaff(Staff staff) {
+        int id = staff.getId();
+        if (!staffRepository.existsById(id)) {
+            throw new IllegalArgumentException("Staff with ID " + id + " does not exist");
+        }
         return staffRepository.save(staff);
     }
 }

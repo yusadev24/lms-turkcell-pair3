@@ -41,6 +41,10 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan updateLoan(Loan loan) {
+        int id = loan.getId();
+        if (!loanRepository.existsById(id)) {
+            throw new IllegalArgumentException("Loan with ID " + id + " does not exist");
+        }
         return loanRepository.save(loan);
     }
 }

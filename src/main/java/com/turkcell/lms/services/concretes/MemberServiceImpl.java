@@ -54,6 +54,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public Member updateMember(Member member) {
+        int id = member.getId();
+        if (!memberRepository.existsById(id)) {
+            throw new IllegalArgumentException("Member with ID " + id + " does not exist");
+        }
         return memberRepository.save(member);
     }
 
