@@ -15,5 +15,5 @@ public interface BookService {
 
     Optional<Book> getById(int id);
 
-    Book updateBook(Book book);
+    Book updateBook(int id, Book book);
 }

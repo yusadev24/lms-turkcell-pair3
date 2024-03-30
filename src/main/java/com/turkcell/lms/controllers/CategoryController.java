@@ -38,8 +38,8 @@ public class CategoryController {
     }
 
     @PutMapping
-    public Category updateCategory(@RequestBody Category category) {
-        return categoryService.updateCategory(category);
+    public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
+        return categoryService.updateCategory(id, category);
 
 
     }

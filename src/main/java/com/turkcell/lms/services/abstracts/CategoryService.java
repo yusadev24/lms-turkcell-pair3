@@ -15,5 +15,5 @@ public interface CategoryService {
 
     Optional<Category> getById(int id);
 
-    Category updateCategory(Category category);
+    Category updateCategory(int id, Category category);
 }

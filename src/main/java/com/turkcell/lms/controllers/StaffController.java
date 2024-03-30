@@ -1,9 +1,7 @@
 package com.turkcell.lms.controllers;
 
-import com.turkcell.lms.entities.Member;
 import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.services.abstracts.StaffService;
-import com.turkcell.lms.services.responses.GetAllMembersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
