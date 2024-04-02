@@ -1,4 +1,4 @@
-package com.turkcell.lms.dtos.responses.member;
+package com.turkcell.lms.services.dtos.responses.member;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListMemberResponse {
+public class AddMemberResponse {
     private int id;
     private String name;
     private String surname;

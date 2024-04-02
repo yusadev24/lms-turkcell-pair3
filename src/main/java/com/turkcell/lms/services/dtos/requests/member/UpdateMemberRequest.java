@@ -1,15 +1,12 @@
-package com.turkcell.lms.dtos.responses.member;
-
+package com.turkcell.lms.services.dtos.requests.member;
 import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddMemberResponse {
+public class UpdateMemberRequest {
     private int id;
-    private String name;
-    private String surname;
     private String password;
     private String email;
 }

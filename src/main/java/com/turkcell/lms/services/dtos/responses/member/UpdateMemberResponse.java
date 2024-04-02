@@ -1,4 +1,4 @@
-package com.turkcell.lms.dtos.responses.member;
+package com.turkcell.lms.services.dtos.responses.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetByIdMemberResponse {
+public class UpdateMemberResponse {
     private int id;
     private String name;
     private String surname;
-    private String email;
     private String password;
+    private String email;
 }

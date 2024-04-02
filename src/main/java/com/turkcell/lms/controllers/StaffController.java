@@ -2,10 +2,21 @@ package com.turkcell.lms.controllers;
 
 import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.services.abstracts.StaffService;
+import com.turkcell.lms.services.dtos.requests.member.AddMemberRequest;
+import com.turkcell.lms.services.dtos.requests.staff.AddStaffRequest;
+import com.turkcell.lms.services.dtos.requests.staff.UpdateStaffRequest;
+import com.turkcell.lms.services.dtos.responses.member.AddMemberResponse;
+import com.turkcell.lms.services.dtos.responses.staff.AddStaffResponse;
+import com.turkcell.lms.services.dtos.responses.staff.GetByIdStaffResponse;
+import com.turkcell.lms.services.dtos.responses.staff.ListStaffResponse;
+import com.turkcell.lms.services.dtos.responses.staff.UpdateStaffResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +28,12 @@ public class StaffController {
     private final StaffService staffService;
 
     @GetMapping()
-    public List<Staff> getAll(){
+    public List<ListStaffResponse> getAll(){
         return staffService.getAll();
     }
 
     @GetMapping("{id}")
-    public Optional<Staff> getStaffById(@PathVariable int id){
+    public Optional<GetByIdStaffResponse> getStaffById(@PathVariable int id){
         return staffService.getById(id);
     }
 
@@ -32,12 +43,19 @@ public class StaffController {
     }
 
     @PostMapping
-    public Staff addStaff(@RequestBody Staff staff){
-        return staffService.addStaff(staff);
+    public ResponseEntity<AddStaffResponse> add(@RequestBody AddStaffRequest request)
+    {
+        AddStaffResponse response = staffService.addStaff(request);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
     }
 
-    @PutMapping
-    public Staff updateStaff(@RequestBody Staff staff){
-        return staffService.updateStaff(staff);
+    @PutMapping("{id}")
+    public UpdateStaffResponse updateStaff(@PathVariable int id, @RequestBody UpdateStaffRequest request){
+        return staffService.updateStaff(id, request);
     }
 }
