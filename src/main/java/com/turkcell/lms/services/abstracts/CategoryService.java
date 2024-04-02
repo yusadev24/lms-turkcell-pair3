@@ -1,5 +1,12 @@
 package com.turkcell.lms.services.abstracts;
 
+import com.turkcell.lms.dtos.requests.category.AddCategoryRequest;
+import com.turkcell.lms.dtos.requests.category.UpdateCategoryRequest;
+import com.turkcell.lms.dtos.responses.category.AddCategoryResponse;
+import com.turkcell.lms.dtos.responses.category.GetByIdCategoryResponse;
+import com.turkcell.lms.dtos.responses.category.ListCategoryResponse;
+import com.turkcell.lms.dtos.responses.category.UpdateCategoryResponse;
+import com.turkcell.lms.dtos.responses.member.GetByIdMemberResponse;
 import com.turkcell.lms.entities.Category;
 
 import java.util.List;
@@ -7,13 +14,13 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    List<Category> getAll();
+    List<ListCategoryResponse> getAll();
 
-    Category addCategory(Category category);
+    AddCategoryResponse addCategory(AddCategoryRequest request);
 
     void deleteCategoryById(int id);
 
-    Optional<Category> getById(int id);
+    Optional<GetByIdCategoryResponse> getById(int id);
 
-    Category updateCategory(int id, Category category);
+    UpdateCategoryResponse updateCategory(int id, UpdateCategoryRequest request);
 }
