@@ -1,12 +1,11 @@
 package com.turkcell.lms.mappers;
 
-import com.turkcell.lms.dtos.requests.category.AddCategoryRequest;
-import com.turkcell.lms.dtos.requests.category.UpdateCategoryRequest;
-import com.turkcell.lms.dtos.responses.category.GetByIdCategoryResponse;
-import com.turkcell.lms.dtos.responses.category.ListCategoryResponse;
+import com.turkcell.lms.services.dtos.requests.category.AddCategoryRequest;
+import com.turkcell.lms.services.dtos.requests.category.UpdateCategoryRequest;
+import com.turkcell.lms.services.dtos.responses.category.GetByIdCategoryResponse;
+import com.turkcell.lms.services.dtos.responses.category.ListCategoryResponse;
 import com.turkcell.lms.entities.Category;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
