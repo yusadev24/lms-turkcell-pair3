@@ -1,12 +1,14 @@
 package com.turkcell.lms.controllers;
 
-import com.turkcell.lms.dtos.requests.category.AddCategoryRequest;
-import com.turkcell.lms.dtos.requests.category.UpdateCategoryRequest;
-import com.turkcell.lms.dtos.responses.category.AddCategoryResponse;
-import com.turkcell.lms.dtos.responses.category.ListCategoryResponse;
-import com.turkcell.lms.dtos.responses.category.UpdateCategoryResponse;
+import com.turkcell.lms.services.dtos.requests.category.AddCategoryRequest;
+import com.turkcell.lms.services.dtos.requests.category.UpdateCategoryRequest;
+import com.turkcell.lms.services.dtos.responses.category.AddCategoryResponse;
+import com.turkcell.lms.services.dtos.responses.category.GetByIdCategoryResponse;
+import com.turkcell.lms.services.dtos.responses.category.ListCategoryResponse;
+import com.turkcell.lms.services.dtos.responses.category.UpdateCategoryResponse;
 import com.turkcell.lms.entities.Category;
 import com.turkcell.lms.services.abstracts.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
     private final CategoryService categoryService;
 
     @GetMapping()
@@ -31,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public Optional<Category> getCategoryById(@PathVariable int id) {
+    public Optional<GetByIdCategoryResponse> getCategoryById(@PathVariable int id) {
         return categoryService.getById(id);
     }
 
@@ -41,7 +42,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<AddCategoryResponse> addCategory(@RequestBody AddCategoryRequest request) {
+    public ResponseEntity<AddCategoryResponse> addCategory(@RequestBody @Valid AddCategoryRequest request) {
        AddCategoryResponse response=categoryService.addCategory(request);
         URI location= ServletUriComponentsBuilder
                 .fromCurrentRequest()

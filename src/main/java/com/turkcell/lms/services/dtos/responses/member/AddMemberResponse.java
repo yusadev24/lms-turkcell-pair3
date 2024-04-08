@@ -12,4 +12,5 @@ public class AddMemberResponse {
     private String surname;
     private String password;
     private String email;
+    private int memberNumber;
 }

@@ -1,21 +1,16 @@
 package com.turkcell.lms.services.concretes;
 
-import com.turkcell.lms.entities.Member;
 import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.repositories.StaffRepository;
 import com.turkcell.lms.services.abstracts.StaffService;
 import com.turkcell.lms.services.dtos.requests.staff.AddStaffRequest;
 import com.turkcell.lms.services.dtos.requests.staff.UpdateStaffRequest;
-import com.turkcell.lms.services.dtos.responses.member.AddMemberResponse;
-import com.turkcell.lms.services.dtos.responses.member.UpdateMemberResponse;
 import com.turkcell.lms.services.dtos.responses.staff.AddStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.GetByIdStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.ListStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.UpdateStaffResponse;
-import com.turkcell.lms.services.mappers.MemberMapper;
 import com.turkcell.lms.services.mappers.StaffMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +19,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
-    @Autowired
     private final StaffRepository staffRepository;
 
     @Override
@@ -36,8 +30,6 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public AddStaffResponse addStaff(AddStaffRequest request) {
-        if(request.getName().length() < 3)
-            throw new RuntimeException("Staff should be at least 3 letters long.");
         // Auto Mapping utilizing MapStruck
         Staff staff = StaffMapper.INSTANCE.staffFromRequest(request);
         Staff savedStaff = staffRepository.save(staff);
@@ -45,8 +37,8 @@ public class StaffServiceImpl implements StaffService {
                 savedStaff.getName(),
                 savedStaff.getSurname(),
                 savedStaff.getRole(),
-                savedStaff.getPassword(),
                 savedStaff.getEmail(),
+                savedStaff.getPassword(),
                 savedStaff.getStaffNumber());
 
         return response;

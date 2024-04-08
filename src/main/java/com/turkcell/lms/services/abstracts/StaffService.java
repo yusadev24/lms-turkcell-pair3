@@ -1,6 +1,5 @@
 package com.turkcell.lms.services.abstracts;
 
-import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.services.dtos.requests.staff.AddStaffRequest;
 import com.turkcell.lms.services.dtos.requests.staff.UpdateStaffRequest;
 import com.turkcell.lms.services.dtos.responses.staff.AddStaffResponse;

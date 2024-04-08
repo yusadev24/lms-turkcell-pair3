@@ -1,8 +1,6 @@
 package com.turkcell.lms.entities;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "books")
+@Builder
 public class Book {
 
     @Id
@@ -26,22 +25,14 @@ public class Book {
     @Column(name = "number_of_pages")
     private int numberOfPages;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "loan_id")
     private Loan loan;
 
-    // @JsonCreator
-//    public Book(@JsonProperty("name") String name,
-//                @JsonProperty("author") String author,
-//                @JsonProperty("publisher") String publisher,
-//                @JsonProperty("numberOfPages") int numberOfPages) {
-//        this.name = name;
-//        this.author = author;
-//        this.publisher = publisher;
-//        this.numberOfPages = numberOfPages;
-//    }
-    @JsonIgnore
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany
+    @JoinTable(name = "categories_books",
+    joinColumns = @JoinColumn(name = "book_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonManagedReference
     private List<Category> categories;
 }

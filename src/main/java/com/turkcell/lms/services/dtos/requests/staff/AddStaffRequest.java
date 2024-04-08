@@ -1,9 +1,6 @@
 package com.turkcell.lms.services.dtos.requests.staff;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,8 +9,8 @@ import lombok.Setter;
 public class AddStaffRequest {
     private String name;
     private String surname;
-    private String role;
     private String email;
     private String password;
+    private String role;
     private int staffNumber;
 }

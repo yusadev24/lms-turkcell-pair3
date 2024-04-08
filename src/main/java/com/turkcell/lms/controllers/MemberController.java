@@ -20,9 +20,9 @@ import java.util.Optional;
 @RequestMapping("/api/members/")
 @RequiredArgsConstructor
 public class MemberController {
-    @Autowired
-    private final MemberService memberService;
 
+    private final MemberService memberService;
+//CRUD
     @GetMapping()
     public List<ListMemberResponse> getAll(){
         return memberService.getAll();
@@ -39,7 +39,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<AddMemberResponse> add(@RequestBody AddMemberRequest request)
+    public ResponseEntity<AddMemberResponse> addMember(@RequestBody AddMemberRequest request)
     {
         AddMemberResponse response = memberService.addMember(request);
         URI location = ServletUriComponentsBuilder

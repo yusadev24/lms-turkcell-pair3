@@ -1,4 +1,4 @@
-package com.turkcell.lms.dtos.responses.category;
+package com.turkcell.lms.services.dtos.responses.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

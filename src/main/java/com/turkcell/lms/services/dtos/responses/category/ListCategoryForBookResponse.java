@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class GetByIdCategoryResponse {
+@NoArgsConstructor
+public class ListCategoryForBookResponse {
     private int id;
     private String name;
 }

@@ -21,8 +21,8 @@ public interface MemberMapper {
     ListMemberResponse memberToListMemberResponse(Member member);
     List<ListMemberResponse> membersToListMemberResponses(List<Member> members);
 
-    @Mapping(target = "id", ignore = true) // We don't update the ID
-    @Mapping(target = "name", ignore = true) // We don't update the name
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
     Member updateMemberFromRequest(int id, Member existingMember);
 
 }

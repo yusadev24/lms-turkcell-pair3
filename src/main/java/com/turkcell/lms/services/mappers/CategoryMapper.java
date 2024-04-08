@@ -1,4 +1,4 @@
-package com.turkcell.lms.mappers;
+package com.turkcell.lms.services.mappers;
 
 import com.turkcell.lms.services.dtos.requests.category.AddCategoryRequest;
 import com.turkcell.lms.services.dtos.requests.category.UpdateCategoryRequest;

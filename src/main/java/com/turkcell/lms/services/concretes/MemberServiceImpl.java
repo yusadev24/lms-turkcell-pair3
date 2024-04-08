@@ -20,7 +20,6 @@ import java.util.Optional;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    @Autowired
     private final MemberRepository memberRepository;
 
 //  WITH AUTO MAPPING
@@ -56,10 +55,13 @@ public class MemberServiceImpl implements MemberService {
                 savedMember.getName(),
                 savedMember.getSurname(),
                 savedMember.getPassword(),
-                savedMember.getEmail());
+                savedMember.getEmail(),
+                savedMember.getMemberNumber());
 
         return response;
     }
+
+    
 
     public UpdateMemberResponse updateMember(int id, UpdateMemberRequest request) {
         Optional<Member> memberOptional = memberRepository.findById(id);

@@ -1,10 +1,9 @@
 package com.turkcell.lms.services.dtos.requests.member;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddMemberRequest {

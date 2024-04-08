@@ -1,11 +1,8 @@
 package com.turkcell.lms.controllers;
 
-import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.services.abstracts.StaffService;
-import com.turkcell.lms.services.dtos.requests.member.AddMemberRequest;
 import com.turkcell.lms.services.dtos.requests.staff.AddStaffRequest;
 import com.turkcell.lms.services.dtos.requests.staff.UpdateStaffRequest;
-import com.turkcell.lms.services.dtos.responses.member.AddMemberResponse;
 import com.turkcell.lms.services.dtos.responses.staff.AddStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.GetByIdStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.ListStaffResponse;
@@ -24,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/api/staff/")
 @RequiredArgsConstructor
 public class StaffController {
-    @Autowired
+
     private final StaffService staffService;
 
     @GetMapping()
@@ -43,7 +40,7 @@ public class StaffController {
     }
 
     @PostMapping
-    public ResponseEntity<AddStaffResponse> add(@RequestBody AddStaffRequest request)
+    public ResponseEntity<AddStaffResponse> addStaff(@RequestBody AddStaffRequest request)
     {
         AddStaffResponse response = staffService.addStaff(request);
         URI location = ServletUriComponentsBuilder

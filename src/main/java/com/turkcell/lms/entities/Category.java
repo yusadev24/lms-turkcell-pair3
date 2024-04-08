@@ -1,8 +1,11 @@
 package com.turkcell.lms.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -18,10 +21,7 @@ public class Category {
     private int id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "categories_books",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
+    @JsonBackReference
     private List<Book> books;
 }
