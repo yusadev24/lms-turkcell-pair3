@@ -7,6 +7,7 @@ import com.turkcell.lms.services.dtos.responses.staff.AddStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.GetByIdStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.ListStaffResponse;
 import com.turkcell.lms.services.dtos.responses.staff.UpdateStaffResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class StaffController {
     }
 
     @PostMapping
-    public ResponseEntity<AddStaffResponse> addStaff(@RequestBody AddStaffRequest request)
+    public ResponseEntity<AddStaffResponse> addStaff(@RequestBody @Valid AddStaffRequest request)
     {
         AddStaffResponse response = staffService.addStaff(request);
         URI location = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class StaffController {
     }
 
     @PutMapping("{id}")
-    public UpdateStaffResponse updateStaff(@PathVariable int id, @RequestBody UpdateStaffRequest request){
+    public UpdateStaffResponse updateStaff(@PathVariable int id, @RequestBody @Valid UpdateStaffRequest request){
         return staffService.updateStaff(id, request);
     }
 }

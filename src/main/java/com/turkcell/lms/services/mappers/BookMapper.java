@@ -14,7 +14,7 @@ import java.util.List;
 public interface BookMapper {
 
       BookMapper INSTANCE= Mappers.getMapper(BookMapper.class);
-       @Mapping(source = "categoryIds", target = "categories", ignore = true)
+      @Mapping(source = "categoryIds", target = "categories", ignore = true)
       Book bookFromAddBookRequest(AddBookRequest request);
 
 

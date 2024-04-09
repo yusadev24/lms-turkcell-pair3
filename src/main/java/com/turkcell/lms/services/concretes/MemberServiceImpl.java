@@ -1,6 +1,8 @@
 package com.turkcell.lms.services.concretes;
 
+import com.turkcell.lms.core.utils.exceptions.types.BusinessException;
 import com.turkcell.lms.entities.Member;
+import com.turkcell.lms.entities.Staff;
 import com.turkcell.lms.repositories.MemberRepository;
 import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.dtos.requests.member.AddMemberRequest;
@@ -30,25 +32,26 @@ public class MemberServiceImpl implements MemberService {
         return MemberMapper.INSTANCE.membersToListMemberResponses(members);
     }
 
+    @Override
+    public Optional<Member> getMemberEntity(int id) {
+        return memberRepository.findById(id);
+    }
+
     public Optional<GetByIdMemberResponse> getById(int id) {
         Optional<Member> memberOptional = memberRepository.findById(id);
-
+        isIdExisted(id);
         return memberOptional.map(MemberMapper.INSTANCE::mapToGetByIdMemberResponse);
     }
 
     public void deleteMemberById(int id){
-        if (!memberRepository.existsById(id)) {
-            throw new IllegalArgumentException("Member with ID " + id + " does not exist");
-        }
+        isIdExisted(id);
         memberRepository.deleteById(id);
     }
 
     @Override
     public AddMemberResponse addMember(AddMemberRequest request) {
-
-        if(request.getName().length() < 3)
-            throw new RuntimeException("Member name should be at least 3 letters long.");
-        // Auto Mapping utilizing MapStruck
+        memberWithSameNumberShouldNotExist(request.getMemberNumber());
+        memberWithSameMailShouldNotExist(request.getEmail());
         Member member = MemberMapper.INSTANCE.memberFromRequest(request);
         Member savedMember = memberRepository.save(member);
         AddMemberResponse response = new AddMemberResponse(savedMember.getId(),
@@ -65,10 +68,11 @@ public class MemberServiceImpl implements MemberService {
 
     public UpdateMemberResponse updateMember(int id, UpdateMemberRequest request) {
         Optional<Member> memberOptional = memberRepository.findById(id);
+        memberWithSameMailShouldNotExist(request.getEmail());
         UpdateMemberResponse response = new UpdateMemberResponse();
 
         memberOptional.ifPresent(member -> {
-            Member updatedMember = MemberMapper.INSTANCE.updateMemberFromRequest(id, member);
+            Member updatedMember = MemberMapper.INSTANCE.updateMemberFromRequest(request, member);
             Member savedMember = memberRepository.save(updatedMember);
 
             response.setId(savedMember.getId());
@@ -80,7 +84,23 @@ public class MemberServiceImpl implements MemberService {
 
         return response;
     }
-
+    private void isIdExisted(int id){
+        if (!memberRepository.existsById(id)) {
+            throw new BusinessException("Member with ID " + id + " does not exist");
+        }
+    }
+    private void memberWithSameNumberShouldNotExist(int number){
+        Optional<Member> memberWithSameNumber = memberRepository.findByMemberNumber(number);
+        if (memberWithSameNumber.isPresent()){
+            throw new BusinessException("This member number already exist!");
+        }
+    }
+    private void memberWithSameMailShouldNotExist(String mail){
+        Optional<Member> staffWithSameMail = memberRepository.findByEmail(mail);
+        if (staffWithSameMail.isPresent()){
+            throw new BusinessException("This email already exist!");
+        }
+    }
 }
 
 //  WITH MANUAL MAPPING

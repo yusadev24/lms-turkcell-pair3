@@ -25,12 +25,14 @@ public class Loan {
     @Column(name = "status")
     private String status;
 
-    @OneToOne
+    // *
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
+
     private Member member;
 
 }

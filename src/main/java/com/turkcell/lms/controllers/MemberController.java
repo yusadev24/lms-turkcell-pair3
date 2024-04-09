@@ -6,6 +6,7 @@ import com.turkcell.lms.services.dtos.responses.member.GetByIdMemberResponse;
 import com.turkcell.lms.services.dtos.responses.member.UpdateMemberResponse;
 import com.turkcell.lms.services.abstracts.MemberService;
 import com.turkcell.lms.services.dtos.responses.member.ListMemberResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<AddMemberResponse> addMember(@RequestBody AddMemberRequest request)
+    public ResponseEntity<AddMemberResponse> addMember(@RequestBody @Valid AddMemberRequest request)
     {
         AddMemberResponse response = memberService.addMember(request);
         URI location = ServletUriComponentsBuilder
@@ -51,7 +52,7 @@ public class MemberController {
     }
 
     @PutMapping("{id}")
-    public UpdateMemberResponse updateMember(@PathVariable int id, @RequestBody UpdateMemberRequest request){
+    public UpdateMemberResponse updateMember(@PathVariable int id, @RequestBody @Valid UpdateMemberRequest request){
         return memberService.updateMember(id, request);
     }
 

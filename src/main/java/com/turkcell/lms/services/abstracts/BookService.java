@@ -1,5 +1,6 @@
 package com.turkcell.lms.services.abstracts;
 
+import com.turkcell.lms.entities.Book;
 import com.turkcell.lms.services.dtos.requests.book.AddBookRequest;
 import com.turkcell.lms.services.dtos.requests.book.UpdateBookRequest;
 import com.turkcell.lms.services.dtos.responses.book.AddBookResponse;
@@ -14,6 +15,8 @@ public interface BookService {
 
     List<ListBookResponse> getAll();
 
+    Optional<Book> getBookEntity(int id);
+
     AddBookResponse addBook(AddBookRequest request);
 
     void deleteBookById(int id);
@@ -21,4 +24,5 @@ public interface BookService {
     Optional<GetByIdBookResponse> getById(int id);
 
     UpdateBookResponse updateBook(int id, UpdateBookRequest request);
+    void isIdExisted(int id);
 }

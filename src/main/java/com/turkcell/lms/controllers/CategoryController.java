@@ -6,11 +6,9 @@ import com.turkcell.lms.services.dtos.responses.category.AddCategoryResponse;
 import com.turkcell.lms.services.dtos.responses.category.GetByIdCategoryResponse;
 import com.turkcell.lms.services.dtos.responses.category.ListCategoryResponse;
 import com.turkcell.lms.services.dtos.responses.category.UpdateCategoryResponse;
-import com.turkcell.lms.entities.Category;
 import com.turkcell.lms.services.abstracts.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -53,7 +51,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public UpdateCategoryResponse updateCategory(@PathVariable int id, @RequestBody UpdateCategoryRequest category) {
+    public UpdateCategoryResponse updateCategory(@PathVariable int id, @Valid @RequestBody UpdateCategoryRequest category) {
         return categoryService.updateCategory(id, category);
 
 

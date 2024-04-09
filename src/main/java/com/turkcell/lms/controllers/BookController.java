@@ -7,6 +7,7 @@ import com.turkcell.lms.services.dtos.requests.book.AddBookRequest;
 import com.turkcell.lms.services.dtos.requests.book.UpdateBookRequest;
 import com.turkcell.lms.services.dtos.responses.book.*;
 import com.turkcell.lms.services.dtos.responses.book.AddBookResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<AddBookResponse> addBook(@RequestBody AddBookRequest request){
+    public ResponseEntity<AddBookResponse> addBook(@RequestBody @Valid AddBookRequest request){
         AddBookResponse response = bookService.addBook(request);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -52,7 +53,7 @@ public class BookController {
     }
 
     @PutMapping("{id}")
-    public UpdateBookResponse updateBook(@PathVariable int id, @RequestBody UpdateBookRequest request)
+    public UpdateBookResponse updateBook(@PathVariable int id, @RequestBody @Valid UpdateBookRequest request)
     {
         return bookService.updateBook(id, request);
     }

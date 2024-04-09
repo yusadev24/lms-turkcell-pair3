@@ -1,5 +1,6 @@
 package com.turkcell.lms.services.concretes;
 
+import com.turkcell.lms.core.utils.exceptions.types.BusinessException;
 import com.turkcell.lms.entities.Book;
 import com.turkcell.lms.entities.Category;
 import com.turkcell.lms.repositories.BookRepository;
@@ -27,16 +28,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<ListBookResponse> getAll() {
         List<Book> books = bookRepository.findAll();
-
         return BookMapper.INSTANCE.booksToListBookResponses(books);
     }
 
     @Override
-    public AddBookResponse addBook(AddBookRequest request) {
+    public Optional<Book> getBookEntity(int id) {
+        return bookRepository.findById(id);
+    }
 
-        if(request.getName().length() < 3)
-            throw new RuntimeException("Member name should be at least 3 letters long.");
-        // Auto Mapping utilizing MapStruck
+    @Override
+    public AddBookResponse addBook(AddBookRequest request) {
         List<Category> categories = categoryService.getAllCategoryEntities(request.getCategoryIds());
         Book book = BookMapper.INSTANCE.bookFromAddBookRequest(request);
         book.setCategories(categories);
@@ -60,15 +61,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBookById(int id) {
-        if (!bookRepository.existsById(id)) {
-            throw new IllegalArgumentException("Book with ID " + id + " does not exist");
-        }
+        isIdExisted(id);
         bookRepository.deleteById(id);
     }
 
     @Override
     public Optional<GetByIdBookResponse> getById(int id) {
         Optional<Book> bookOptional = bookRepository.findById(id);
+        isIdExisted(id);
 
         return bookOptional.map(BookMapper.INSTANCE::mapToGetByIdBookResponse);
     }
@@ -76,6 +76,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public UpdateBookResponse updateBook(int id, UpdateBookRequest request) {
         Optional<Book> bookOptional = bookRepository.findById(id);
+        isIdExisted(id);
         UpdateBookResponse response = new UpdateBookResponse();
 
         bookOptional.ifPresent(book -> {
@@ -109,4 +110,11 @@ public class BookServiceImpl implements BookService {
 
         return response;
     }
+
+    public   void isIdExisted(int id){
+        if (!bookRepository.existsById(id)) {
+            throw new BusinessException("Book with ID " + id + " does not exist");
+        }
+    }
+
 }
