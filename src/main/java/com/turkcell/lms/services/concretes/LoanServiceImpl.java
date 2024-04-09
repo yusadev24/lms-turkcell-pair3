@@ -1,8 +1,21 @@
 package com.turkcell.lms.services.concretes;
 
+import com.turkcell.lms.entities.Book;
 import com.turkcell.lms.entities.Loan;
+import com.turkcell.lms.entities.Member;
 import com.turkcell.lms.repositories.LoanRepository;
+import com.turkcell.lms.services.abstracts.BookService;
 import com.turkcell.lms.services.abstracts.LoanService;
+import com.turkcell.lms.services.abstracts.MemberService;
+import com.turkcell.lms.services.dtos.requests.loan.AddLoanRequest;
+import com.turkcell.lms.services.dtos.requests.loan.UpdateLoanRequest;
+import com.turkcell.lms.services.dtos.responses.book.GetByIdBookResponse;
+import com.turkcell.lms.services.dtos.responses.loan.AddLoanResponse;
+import com.turkcell.lms.services.dtos.responses.loan.GetByIdLoanResponse;
+import com.turkcell.lms.services.dtos.responses.loan.ListLoanResponse;
+import com.turkcell.lms.services.dtos.responses.loan.UpdateLoanResponse;
+import com.turkcell.lms.services.dtos.responses.member.GetByIdMemberResponse;
+import com.turkcell.lms.services.mappers.LoanMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +25,41 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
+
     @Autowired
     private final LoanRepository loanRepository;
+    private final MemberService memberService;
+    private final BookService bookService;
 
     @Override
-    public List<Loan> getAll() {
-        return loanRepository.findAll();
+    public List<ListLoanResponse> getAll() {
+        List<Loan> loans = loanRepository.findAll();
+        return LoanMapper.INSTANCE.loansToListLoanResponses(loans);
     }
 
+
     @Override
-    public Loan addLoan(Loan loan) {
-        return loanRepository.save(loan);
+    public AddLoanResponse addLoan(AddLoanRequest request) {
+
+        Optional<Member> memberOptional = memberService.getMemberEntity(request.getMemberId());
+        Optional<Book> bookOptional = bookService.getBookEntity(request.getBookId());
+
+        Loan loan = LoanMapper.INSTANCE.loanFromAddLoanRequest(request);
+
+        bookOptional.ifPresent(book->loan.setBook(book));
+        memberOptional.ifPresent(member->loan.setMember(member));
+
+        Loan savedLoan = loanRepository.save(loan);
+
+        return new AddLoanResponse(
+                savedLoan.getId(),
+                savedLoan.getBook().getId(),
+                savedLoan.getMember().getId(),
+                savedLoan.getDateBorrowed(),
+                savedLoan.getDueDate(),
+                savedLoan.getDateReturned(),
+                savedLoan.getStatus()
+        );
     }
 
     @Override
@@ -35,16 +72,31 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Optional<Loan> getById(int id) {
-        return loanRepository.findById(id);
+    public Optional<GetByIdLoanResponse> getById(int id) {
+        Optional<Loan> loanOptional = loanRepository.findById(id);
+        return loanOptional.map(LoanMapper.INSTANCE::mapToGetByIdLoanResponse);
     }
 
+
     @Override
-    public Loan updateLoan(Loan loan) {
-        int id = loan.getId();
-        if (!loanRepository.existsById(id)) {
-            throw new IllegalArgumentException("Loan with ID " + id + " does not exist");
-        }
-        return loanRepository.save(loan);
+    public UpdateLoanResponse updateLoan(int id, UpdateLoanRequest request) {
+        Optional<Loan> loanOptional = loanRepository.findById(id);
+        UpdateLoanResponse response = new UpdateLoanResponse();
+
+        loanOptional.ifPresent(loan -> {
+            Loan updatedloan = LoanMapper.INSTANCE.updateLoanFromRequest(request, loan);
+
+            Loan savedLoan = loanRepository.save(updatedloan);
+
+            response.setId(savedLoan.getId());
+            response.setBookId(savedLoan.getBook().getId());
+            response.setMemberId(savedLoan.getMember().getId());
+            response.setDateBorrowed(savedLoan.getDateBorrowed());
+            response.setDueDate(savedLoan.getDueDate());
+            response.setDateReturned(savedLoan.getDateReturned());
+            response.setStatus(savedLoan.getStatus());
+        });
+
+        return response;
     }
 }

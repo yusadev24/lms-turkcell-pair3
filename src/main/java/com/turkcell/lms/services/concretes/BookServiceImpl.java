@@ -27,8 +27,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<ListBookResponse> getAll() {
         List<Book> books = bookRepository.findAll();
-
         return BookMapper.INSTANCE.booksToListBookResponses(books);
+    }
+
+    @Override
+    public Optional<Book> getBookEntity(int id) {
+        return bookRepository.findById(id);
     }
 
     @Override

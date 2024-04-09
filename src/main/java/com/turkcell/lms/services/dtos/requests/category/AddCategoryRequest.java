@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AddCategoryRequest {
 
-    @NotBlank
-    @Size(min = 2, max = 50)
+    @NotBlank(message = "Kategori ismi boş geçilemez.")
+    @Size(min = 2, max = 50, message = "Kategori ismi en az 2, en fazla 50 karakter olmalıdır.")
     private String name;
 }

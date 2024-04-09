@@ -30,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
         return MemberMapper.INSTANCE.membersToListMemberResponses(members);
     }
 
+    @Override
+    public Optional<Member> getMemberEntity(int id) {
+        return memberRepository.findById(id);
+    }
+
     public Optional<GetByIdMemberResponse> getById(int id) {
         Optional<Member> memberOptional = memberRepository.findById(id);
 
@@ -48,7 +53,6 @@ public class MemberServiceImpl implements MemberService {
 
         if(request.getName().length() < 3)
             throw new RuntimeException("Member name should be at least 3 letters long.");
-        // Auto Mapping utilizing MapStruck
         Member member = MemberMapper.INSTANCE.memberFromRequest(request);
         Member savedMember = memberRepository.save(member);
         AddMemberResponse response = new AddMemberResponse(savedMember.getId(),
@@ -68,7 +72,7 @@ public class MemberServiceImpl implements MemberService {
         UpdateMemberResponse response = new UpdateMemberResponse();
 
         memberOptional.ifPresent(member -> {
-            Member updatedMember = MemberMapper.INSTANCE.updateMemberFromRequest(id, member);
+            Member updatedMember = MemberMapper.INSTANCE.updateMemberFromRequest(request, member);
             Member savedMember = memberRepository.save(updatedMember);
 
             response.setId(savedMember.getId());

@@ -1,5 +1,6 @@
 package com.turkcell.lms.services.abstracts;
 
+import com.turkcell.lms.entities.Member;
 import com.turkcell.lms.services.dtos.requests.member.AddMemberRequest;
 import com.turkcell.lms.services.dtos.requests.member.UpdateMemberRequest;
 import com.turkcell.lms.services.dtos.responses.member.AddMemberResponse;
@@ -12,6 +13,8 @@ import java.util.Optional;
 
 public interface MemberService {
     List<ListMemberResponse> getAll();
+
+    Optional<Member> getMemberEntity(int id);
 
     AddMemberResponse addMember(AddMemberRequest request);
 

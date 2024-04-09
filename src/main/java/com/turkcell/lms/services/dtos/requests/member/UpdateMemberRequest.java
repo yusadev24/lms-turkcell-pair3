@@ -6,7 +6,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateMemberRequest {
-    private int id;
     private String password;
     private String email;
 }

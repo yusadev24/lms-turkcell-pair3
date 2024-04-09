@@ -65,7 +65,8 @@ public class StaffServiceImpl implements StaffService {
         UpdateStaffResponse response = new UpdateStaffResponse();
 
         staffOptional.ifPresent(staff -> {
-            Staff updatedStaff = StaffMapper.INSTANCE.updateStaffFromRequest(id, staff);
+            Staff updatedStaff = StaffMapper.INSTANCE.updateStaffFromRequest(request, staff);
+
             Staff savedStaff = staffRepository.save(updatedStaff);
 
             response.setId(savedStaff.getId());

@@ -1,5 +1,6 @@
 package com.turkcell.lms.services.concretes;
 
+import com.turkcell.lms.core.utils.exceptions.types.BusinessException;
 import com.turkcell.lms.entities.Category;
 import com.turkcell.lms.repositories.CategoryRepository;
 import com.turkcell.lms.services.abstracts.CategoryService;
@@ -40,6 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public AddCategoryResponse addCategory(AddCategoryRequest request) {
+        //iş kuralları
+        categoryWithSameNameShouldNotExist(request.getName());
+
         Category category= CategoryMapper.INSTANCE.categoryFromRequest(request);
         Category savedCategory=categoryRepository.save(category);
 
@@ -73,17 +77,25 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public UpdateCategoryResponse updateCategory(int id, UpdateCategoryRequest request) {
 
-        Optional<Category> existingCategoryO= categoryRepository.findById(id);
-        if(existingCategoryO==null){
-            throw new RuntimeException("Category not found with id: " + id);
-        }
+        categoryWithSameNameShouldNotExist(request.getName());
 
-        Category existingCategory = existingCategoryO.get();
+        Optional<Category> categoryOptional= categoryRepository.findById(id);
+
+        Category existingCategory = categoryOptional.get();
 
         Category category= CategoryMapper.INSTANCE.updateCategoryFromRequest(request,existingCategory);
         Category savedCategory=categoryRepository.save(category);
 
         UpdateCategoryResponse response= new UpdateCategoryResponse(savedCategory.getId(), savedCategory.getName());
         return response;
+    }
+
+
+    private void categoryWithSameNameShouldNotExist(String name){
+        Optional<Category> categoryWithSameName = categoryRepository.findByNameIgnoreCase(name);
+        if (categoryWithSameName.isPresent()){
+            throw new BusinessException("Aynı isimle 2. kategori eklenemez.");
+        }
+
     }
 }
